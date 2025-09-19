@@ -1,0 +1,4 @@
+name.firstName,name.lastName,age,address.line1,address.line2,address.city,address.state,gender,phone.mobile,phone.landline
+Rohit,Prasad,35,A-563 Rakshak Society,New Pune Road,Pune,Maharashtra,male,9876543210,020-12345678
+Priya,Sharma,28,B-404 Green Valley,MG Road,Bangalore,Karnataka,female,9876543211,080-87654321
+Arjun,Kumar,42,C-205 Tech Park,Electronic City,Hyderabad,Telangana,male,9876543212,040-98765432
