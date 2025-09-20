@@ -1,7 +1,7 @@
 import express from 'express';
 import fs from 'fs';
 import { parseCsv } from "./csvParser.js";
-import pool, {clearUsers, insertUsers } from "./database.js";
+import pool, {clearUsers, getAgeDistribution, insertUsers} from "./database.js";
 
 const app = express();
 
@@ -23,6 +23,8 @@ app.post('/process-csv', async (req, res) => {
         const users = parseCsv(csvContent);
 
         await insertUsers(users);
+
+        await getAgeDistribution();
 
         if (returnData) {
             res.json({
@@ -55,6 +57,29 @@ app.get('/view-users', async (req, res) => {
     } catch (error) {
         res.status(500).json({
             error: 'Failed to fetch users',
+            details: error instanceof Error ? error.message : 'Unknown error'
+        });
+    }
+});
+
+app.get('/age-report', async (req, res) => {
+    try {
+        const ageStats = await getAgeDistribution();
+
+        if (!ageStats) {
+            return res.json({
+                message: 'No users in DB'
+            });
+        }
+
+        res.json({
+            message: 'Age distribution results from DB',
+            distribution: ageStats
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            error: 'Failed to calculate age distribution',
             details: error instanceof Error ? error.message : 'Unknown error'
         });
     }
