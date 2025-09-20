@@ -2,11 +2,11 @@ import { Pool } from 'pg';
 import {User} from "./types";
 
 const pool = new Pool({
-    host: process.env.DB_HOST || 'localhost',
+    host: process.env.DB_HOST,
     port: parseInt(process.env.DB_PORT || '5432'),
-    user: process.env.DB_USER || 'postgres',
+    user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME || 'kelp_challenge',
+    database: process.env.DB_NAME,
 });
 
 export const connectToDB = async (): Promise<void> => {
@@ -69,6 +69,7 @@ export const insertUsers = async (users: Omit<User, 'id'>[]): Promise<void> => {
 
 export const clearUsers = async (): Promise<void> => {
     await pool.query('DELETE FROM public.users');
+    await pool.query('ALTER SEQUENCE users_id_seq RESTART WITH 1');
     console.log('DB Cleared!');
 };
 
