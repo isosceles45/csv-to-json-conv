@@ -21,7 +21,7 @@ const parseRow = (dataLine: string, headers: string[]): Omit<User, 'id'> => {
     const values = dataLine.split(',').map(value => value.trim());
 
     if (values.length !== headers.length) {
-        throw new Error(`Row has ${values.length} values but expected ${headers.length}`);
+        throw new Error(`Mismatch with header length`);
     }
 
     const flatObject: CsvRow = {};
@@ -39,7 +39,7 @@ const processRowData = (flatData: CsvRow): Omit<User, 'id'> => {
     const lastName = nestedData.name?.lastName || '';
 
     if (!firstName || !lastName) {
-        throw new Error('Missing required fields: name.firstName or name.lastName');
+        throw new Error('Missing required fields');
     }
 
     const name = { firstName, lastName };
